@@ -408,4 +408,140 @@
 
 
 
+## 2195. Append K Integers With Minimal Sum
 
+class Solution {
+    public long minimalKSum(int[] nums, int k) {
+        TreeSet<Integer> set = new TreeSet<Integer>();
+        for (int n : nums)                               
+            set.add(n);
+        long sum = ((long)(k + 1) * (long)k) / 2;     
+        int count = 0;                                
+        for (Integer i : set) {
+            if (i > k)                      
+                break;
+            else {
+                sum -= i;                              
+                count++;                              
+            }                                          
+        }
+        int i = k + 1;                              
+        while (count > 0) {
+            if (!set.contains(i)) {
+                sum += i;
+                count--;
+            }
+            i++;
+        }
+        return sum;
+    }
+}
+
+
+
+## 2333. Minimum Sum of Squared Difference
+
+class Solution {
+    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+        int lo=0,hi=100000,k=k1+k2;
+        long extra=0,ans=0;
+        while(lo<hi){
+            int mid=(lo+hi)>>1;
+            long need=0;
+            for (int i = 0 ; i< nums1.length&&need<=k;i++){
+                need += Math.max(0, Math.abs(nums1[i]-nums2[i])-mid);
+            }
+            if (need<=k){
+                hi=mid;
+                extra=k-need;
+            }else{
+                lo=mid+1;
+            }
+        }
+
+        for (int i = 0; i< nums1.length&&lo>0;i++){// make sure to check lo (diff) > 0 here.
+            long diff = Math.min(lo, Math.abs(nums1[i]-nums2[i]));
+            if (diff==lo&&extra>0){ 
+                --diff;
+                --extra;
+            }
+            ans+=diff*diff;
+        }
+
+        return ans;
+    }
+}
+
+
+
+
+## 805. Split Array With Same Average
+
+class Solution 
+{
+    public boolean splitArraySameAverage(int[] nums)
+    {
+        if(nums.length<=1)
+            return false;
+        int n = nums.length;
+        //finding sum of elements of the array :- nums
+        int sum = 0;
+        for(int i=0 ; i<n ; i++)
+        {
+            sum += nums[i];
+        }
+        // We divide the given array into 2 parts , where n1 = length of part-1 & s1 = sum of elements of part-1
+        // s1 = (sum*n1)/n , since the average of both part-1 & part-2 are equal
+        // Range of n1 = [ 1 , n-1 ]
+        // We iterate over each possible valid value of n1 , and check if the corresponding subseq of sum = s1 & length = n1 is possible or not
+        for(int n1=1 ; n1<=(n-1) ; n1++)
+        {
+            int numerator = (sum*n1);
+            int denominator = n;
+            int s1 = numerator/denominator;
+            // if the s1 = float value , then we move on to the next possible n1
+            if(numerator%denominator !=0) 
+                continue;
+            //if s1 = integer , then we check if there exists a subseq whose sum = s1 , we check this by dp
+            Boolean dp[][] = new Boolean[n+1][s1+1];
+            boolean isTargetPresent = isPresent( s1 ,0,0,n1, nums, nums.length , dp);
+            if(isTargetPresent)
+                return true;
+        }
+        return false;
+    }
+	// function that check if there exists a subseq. of length=n1 & sum=s1
+   private boolean isPresent(int target,int count,int sum,int n1, int[] nums, int n , Boolean dp[][])
+   {
+       if(n==0)
+        {
+            if(target==0 && count==n1)
+                return true;
+            else
+                return false;
+        }
+        if(count==n1)
+        {
+            if(target==0)
+                return true;
+            else
+                return false;
+        }
+        if(dp[n][target] != null)
+            return dp[n][target];
+        if(nums[n-1] > target)
+        {
+            boolean skip = isPresent(target,count,sum,n1,nums,n-1,dp);
+            dp[n][target] = skip;
+            return dp[n][target];
+        }
+        else
+        {
+            boolean include = isPresent(target-nums[n-1] , count+1 , sum + nums[n-1] , n1 , nums , n-1 , dp);
+            boolean exclude = isPresent(target , count , sum , n1 , nums , n-1 , dp );
+            dp[n][target] = include || exclude;
+            return dp[n][target];
+        }
+\
+   }
+}
