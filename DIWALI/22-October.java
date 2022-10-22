@@ -224,3 +224,31 @@
             return sb.toString();
         }
     }  
+
+
+
+
+
+## 2289. Steps to Make Array Non-decreasing
+
+    class Solution {
+        public int totalSteps(int[] nums) {
+            int max=0;
+            Stack<Integer> st = new Stack<>();
+            int[] dp = new int[nums.length];
+            st.push(nums.length-1);
+            for(int i=nums.length-2;i>=0;i--){
+                if(nums[st.peek()]>=nums[i]){
+                    st.push(i);
+                }else{
+                    while(!st.isEmpty() && nums[st.peek()]<nums[i]){
+                        dp[i] = Math.max(dp[i]+1,dp[st.peek()]);
+                        st.pop();
+                    }
+                    max = Math.max(max,dp[i]);
+                    st.push(i);
+                }
+            }
+            return max;
+        }
+    }
