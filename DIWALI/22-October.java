@@ -1370,3 +1370,186 @@
 		this.prev=null;
 	    }
 	}
+
+
+
+
+## 200. Number of Islands
+
+	class Solution {
+	    public int numIslands(char[][] grid) {
+
+		int m = grid.length;
+		int n = grid[0].length;
+		int ans = 0;
+		for(int i=0;i<m;i++){
+		    for(int j=0;j<n;j++){
+			if(grid[i][j]=='1'){
+			    dfs(grid,i,j,m,n);
+			    ans++;
+			}
+		    }
+		}
+		return ans;
+	    }
+	    static void dfs(char[][] ch, int i, int j, int m, int n){
+		if(j<0 || i<0 || i>=m || j>=n || ch[i][j]!='1'){
+		    return;
+		}
+		ch[i][j] = '2';
+		dfs(ch,i,j-1,m,n);
+		dfs(ch,i-1,j,m,n);
+		dfs(ch,i,j+1,m,n);
+		dfs(ch,i+1,j,m,n);
+	    }
+
+	}
+
+
+
+## 207. Course Schedule
+
+	class Solution {
+	    public boolean canFinish(int numCourses, int[][] prerequisites) {
+		if(prerequisites == null || prerequisites.length == 0) return true;
+
+		//generate map <course_id> - <list of pre requisted courses>
+		Map<Integer, List<Integer>> pre_req_courses = new HashMap<>();
+		for(int i = 0; i < prerequisites.length; i++){
+		    int[] pre_req = prerequisites[i];
+		    if(!pre_req_courses.containsKey(pre_req[0]))
+			pre_req_courses.put(pre_req[0], new ArrayList<>());
+		    pre_req_courses.get(pre_req[0]).add(pre_req[1]);
+		}
+
+		int[] visited = new int[numCourses];
+		//0 - means hasn't been visited
+		//1 - permanent mark - means has been visited and no cycle detected
+		//2 - temporary mark - means it is during the DFS cycle(on the path), if it is visited again - means a cycle detected
+
+		for (int i = 0; i < numCourses; i++) {
+		    if(visited[i] == 0){//this course has been visited, do a dfs search to check if there is a cycle
+			if(isCyclic(visited, i, pre_req_courses)) return false;
+		    } 
+		}
+
+		return true;
+	    }
+
+	    private boolean isCyclic(int[] visited, int i, Map<Integer, List<Integer>> pre_req_courses){
+		visited[i] = 2; //temporary mark - means it is currently in a DFS search
+
+		if(pre_req_courses.containsKey(i)){//if this course i has some pre required courses to finish first            
+		    List<Integer> must_finish_before = pre_req_courses.get(i);//get the list of pre required courses
+		    for(int prereq_course_id : must_finish_before){//for each course in the list
+			if(visited[prereq_course_id] == 2) return true;//if this course has been visited, then a cycle is detected
+			if(visited[prereq_course_id] == 0) {//hasn't been visited, do a DFS search
+			    if(isCyclic(visited, prereq_course_id, pre_req_courses)) return true;
+			}
+		    }
+		}
+
+		visited[i] = 1; //permanent mark - this course has been visited, no cycle detected
+		return false;
+	    }
+	}
+
+
+
+## 394. Decode String
+
+	class Solution {
+	    public String decodeString(String s) {
+		ArrayDeque<Integer> intStack = new ArrayDeque<>();
+		ArrayDeque<String> strStack = new ArrayDeque<>();
+		StringBuilder curr = new StringBuilder();
+		int count = 0;
+		for (char ch : s.toCharArray()) {
+		    if ('0' <= ch && ch <= '9') {
+			count = count * 10 + ch - '0';
+			continue;
+		    }
+		    if (ch == '[') {
+			intStack.push(count);
+			strStack.push(curr.toString());
+			curr = new StringBuilder();
+			count = 0;
+			continue;
+		    }
+		    if (ch == ']') {
+			String PrevStr = strStack.pop();
+			int PrevInt = intStack.pop();
+			PrevStr += (curr.toString().repeat(PrevInt));
+			curr = new StringBuilder(PrevStr);
+			continue;
+		    }
+		    curr.append(ch);
+		}
+		return curr.toString();
+	    }
+	}
+
+
+
+## 647. Palindromic Substrings
+
+	class Solution {
+
+		int count=0;
+		int result=0;
+
+		int countSubstrings(String s) {
+
+					if (s == null || s.length() == 0) 
+						return 0;
+
+			for (int i = 0; i < s.length(); i++) { 
+				extendPalindrome(s, i, i); 
+				extendPalindrome(s, i, i + 1); 
+			}
+
+			return count;
+		}
+
+		public void extendPalindrome(String s, int leftside, int rightside) {
+			while (leftside >=0 && rightside < s.length() && s.charAt(leftside) == s.charAt(rightside)) {
+				count++; 
+				leftside--; 
+				rightside++;
+			}
+		}
+	}
+
+
+
+## 763. Partition Labels
+
+	class Solution {
+	    public List<Integer> partitionLabels(String s) {
+		Map<Character, Integer> map = new HashMap<>();
+		// filling impact of character's
+		for(int i = 0; i < s.length(); i++){
+		    char ch = s.charAt(i);
+		    map.put(ch, i);
+		}
+		List<Integer> res = new ArrayList<>();
+		int prev = -1;
+		int max = 0;
+
+		for(int i = 0; i < s.length(); i++){
+		    char ch = s.charAt(i);
+		    max = Math.max(max, map.get(ch));
+		    if(max == i){
+			// partition time
+			res.add(max - prev);
+			prev = max;
+		    }
+		}
+		return res;
+	    }
+	}
+
+
+
+
+
