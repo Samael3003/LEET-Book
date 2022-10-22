@@ -362,186 +362,371 @@
 
 ## 665. Non-decreasing Array
 
-    class Solution {
-        public boolean checkPossibility(int[] nums) {
-            return checkInForwardDirection(nums) || checkInBackwardDirection(nums);
-        }
-        private boolean checkInForwardDirection(int[] nums){
-            int issueIndex = -1;
-            int num = 0;
-            for(int i = 0; i < nums.length - 1; i++){
-                //fix the issue, if found
-                if(nums[i] > nums[i + 1]){
-                    issueIndex = i;
-                    num = nums[i + 1];
-                    nums[i + 1] = nums[i]; 
-                    break;
-                }
-            }
-            //no issue found, it mean nums is already non - decreasing
-            if(issueIndex == -1) return true;
-            //check once again, it becomes completely non - decreasing or not
-            //after fixing the issue
-            if(isNonDecreasing(nums)) return true;
-            //restore array back to original
-            nums[issueIndex + 1] = num;
-            return false;
-        }
-        private boolean checkInBackwardDirection(int[] nums){
-            for(int i = nums.length - 1; i > 0; i--){
-                //fix the issue, if found
-                if(nums[i] < nums[i - 1]){
-                    nums[i - 1] = nums[i];
-                    break;
-                }
-            }
-            //check once again, it becomes completely non - decreasing or not
-            return isNonDecreasing(nums); 
-        }
-        private boolean isNonDecreasing(int[] nums){
-            for(int i = 0; i < nums.length - 1; i++){
-                if(nums[i] > nums[i + 1]) return false;
-            }
-            return true;
-        }
-    }
+	    class Solution {
+		public boolean checkPossibility(int[] nums) {
+		    return checkInForwardDirection(nums) || checkInBackwardDirection(nums);
+		}
+		private boolean checkInForwardDirection(int[] nums){
+		    int issueIndex = -1;
+		    int num = 0;
+		    for(int i = 0; i < nums.length - 1; i++){
+			//fix the issue, if found
+			if(nums[i] > nums[i + 1]){
+			    issueIndex = i;
+			    num = nums[i + 1];
+			    nums[i + 1] = nums[i]; 
+			    break;
+			}
+		    }
+		    //no issue found, it mean nums is already non - decreasing
+		    if(issueIndex == -1) return true;
+		    //check once again, it becomes completely non - decreasing or not
+		    //after fixing the issue
+		    if(isNonDecreasing(nums)) return true;
+		    //restore array back to original
+		    nums[issueIndex + 1] = num;
+		    return false;
+		}
+		private boolean checkInBackwardDirection(int[] nums){
+		    for(int i = nums.length - 1; i > 0; i--){
+			//fix the issue, if found
+			if(nums[i] < nums[i - 1]){
+			    nums[i - 1] = nums[i];
+			    break;
+			}
+		    }
+		    //check once again, it becomes completely non - decreasing or not
+		    return isNonDecreasing(nums); 
+		}
+		private boolean isNonDecreasing(int[] nums){
+		    for(int i = 0; i < nums.length - 1; i++){
+			if(nums[i] > nums[i + 1]) return false;
+		    }
+		    return true;
+		}
+	    }
 
 
 
 ## 2195. Append K Integers With Minimal Sum
 
-class Solution {
-    public long minimalKSum(int[] nums, int k) {
-        TreeSet<Integer> set = new TreeSet<Integer>();
-        for (int n : nums)                               
-            set.add(n);
-        long sum = ((long)(k + 1) * (long)k) / 2;     
-        int count = 0;                                
-        for (Integer i : set) {
-            if (i > k)                      
-                break;
-            else {
-                sum -= i;                              
-                count++;                              
-            }                                          
-        }
-        int i = k + 1;                              
-        while (count > 0) {
-            if (!set.contains(i)) {
-                sum += i;
-                count--;
-            }
-            i++;
-        }
-        return sum;
-    }
-}
+	class Solution {
+	    public long minimalKSum(int[] nums, int k) {
+		TreeSet<Integer> set = new TreeSet<Integer>();
+		for (int n : nums)                               
+		    set.add(n);
+		long sum = ((long)(k + 1) * (long)k) / 2;     
+		int count = 0;                                
+		for (Integer i : set) {
+		    if (i > k)                      
+			break;
+		    else {
+			sum -= i;                              
+			count++;                              
+		    }                                          
+		}
+		int i = k + 1;                              
+		while (count > 0) {
+		    if (!set.contains(i)) {
+			sum += i;
+			count--;
+		    }
+		    i++;
+		}
+		return sum;
+	    }
+	}
 
 
 
 ## 2333. Minimum Sum of Squared Difference
 
-class Solution {
-    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
-        int lo=0,hi=100000,k=k1+k2;
-        long extra=0,ans=0;
-        while(lo<hi){
-            int mid=(lo+hi)>>1;
-            long need=0;
-            for (int i = 0 ; i< nums1.length&&need<=k;i++){
-                need += Math.max(0, Math.abs(nums1[i]-nums2[i])-mid);
-            }
-            if (need<=k){
-                hi=mid;
-                extra=k-need;
-            }else{
-                lo=mid+1;
-            }
-        }
+	class Solution {
+	    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+		int lo=0,hi=100000,k=k1+k2;
+		long extra=0,ans=0;
+		while(lo<hi){
+		    int mid=(lo+hi)>>1;
+		    long need=0;
+		    for (int i = 0 ; i< nums1.length&&need<=k;i++){
+			need += Math.max(0, Math.abs(nums1[i]-nums2[i])-mid);
+		    }
+		    if (need<=k){
+			hi=mid;
+			extra=k-need;
+		    }else{
+			lo=mid+1;
+		    }
+		}
 
-        for (int i = 0; i< nums1.length&&lo>0;i++){// make sure to check lo (diff) > 0 here.
-            long diff = Math.min(lo, Math.abs(nums1[i]-nums2[i]));
-            if (diff==lo&&extra>0){ 
-                --diff;
-                --extra;
-            }
-            ans+=diff*diff;
-        }
+		for (int i = 0; i< nums1.length&&lo>0;i++){// make sure to check lo (diff) > 0 here.
+		    long diff = Math.min(lo, Math.abs(nums1[i]-nums2[i]));
+		    if (diff==lo&&extra>0){ 
+			--diff;
+			--extra;
+		    }
+		    ans+=diff*diff;
+		}
 
-        return ans;
-    }
-}
+		return ans;
+	    }
+	}
 
 
 
 
 ## 805. Split Array With Same Average
 
-class Solution 
-{
-    public boolean splitArraySameAverage(int[] nums)
-    {
-        if(nums.length<=1)
-            return false;
-        int n = nums.length;
-        //finding sum of elements of the array :- nums
-        int sum = 0;
-        for(int i=0 ; i<n ; i++)
-        {
-            sum += nums[i];
-        }
-        // We divide the given array into 2 parts , where n1 = length of part-1 & s1 = sum of elements of part-1
-        // s1 = (sum*n1)/n , since the average of both part-1 & part-2 are equal
-        // Range of n1 = [ 1 , n-1 ]
-        // We iterate over each possible valid value of n1 , and check if the corresponding subseq of sum = s1 & length = n1 is possible or not
-        for(int n1=1 ; n1<=(n-1) ; n1++)
-        {
-            int numerator = (sum*n1);
-            int denominator = n;
-            int s1 = numerator/denominator;
-            // if the s1 = float value , then we move on to the next possible n1
-            if(numerator%denominator !=0) 
-                continue;
-            //if s1 = integer , then we check if there exists a subseq whose sum = s1 , we check this by dp
-            Boolean dp[][] = new Boolean[n+1][s1+1];
-            boolean isTargetPresent = isPresent( s1 ,0,0,n1, nums, nums.length , dp);
-            if(isTargetPresent)
-                return true;
-        }
-        return false;
-    }
-	// function that check if there exists a subseq. of length=n1 & sum=s1
-   private boolean isPresent(int target,int count,int sum,int n1, int[] nums, int n , Boolean dp[][])
-   {
-       if(n==0)
-        {
-            if(target==0 && count==n1)
-                return true;
-            else
-                return false;
-        }
-        if(count==n1)
-        {
-            if(target==0)
-                return true;
-            else
-                return false;
-        }
-        if(dp[n][target] != null)
-            return dp[n][target];
-        if(nums[n-1] > target)
-        {
-            boolean skip = isPresent(target,count,sum,n1,nums,n-1,dp);
-            dp[n][target] = skip;
-            return dp[n][target];
-        }
-        else
-        {
-            boolean include = isPresent(target-nums[n-1] , count+1 , sum + nums[n-1] , n1 , nums , n-1 , dp);
-            boolean exclude = isPresent(target , count , sum , n1 , nums , n-1 , dp );
-            dp[n][target] = include || exclude;
-            return dp[n][target];
-        }
-\
-   }
-}
+	class Solution 
+	{
+	    public boolean splitArraySameAverage(int[] nums)
+	    {
+		if(nums.length<=1)
+		    return false;
+		int n = nums.length;
+		//finding sum of elements of the array :- nums
+		int sum = 0;
+		for(int i=0 ; i<n ; i++)
+		{
+		    sum += nums[i];
+		}
+		// We divide the given array into 2 parts , where n1 = length of part-1 & s1 = sum of elements of part-1
+		// s1 = (sum*n1)/n , since the average of both part-1 & part-2 are equal
+		// Range of n1 = [ 1 , n-1 ]
+		// We iterate over each possible valid value of n1 , and check if the corresponding subseq of sum = s1 & length = n1 is possible or not
+		for(int n1=1 ; n1<=(n-1) ; n1++)
+		{
+		    int numerator = (sum*n1);
+		    int denominator = n;
+		    int s1 = numerator/denominator;
+		    // if the s1 = float value , then we move on to the next possible n1
+		    if(numerator%denominator !=0) 
+			continue;
+		    //if s1 = integer , then we check if there exists a subseq whose sum = s1 , we check this by dp
+		    Boolean dp[][] = new Boolean[n+1][s1+1];
+		    boolean isTargetPresent = isPresent( s1 ,0,0,n1, nums, nums.length , dp);
+		    if(isTargetPresent)
+			return true;
+		}
+		return false;
+	    }
+		// function that check if there exists a subseq. of length=n1 & sum=s1
+	   private boolean isPresent(int target,int count,int sum,int n1, int[] nums, int n , Boolean dp[][])
+	   {
+	       if(n==0)
+		{
+		    if(target==0 && count==n1)
+			return true;
+		    else
+			return false;
+		}
+		if(count==n1)
+		{
+		    if(target==0)
+			return true;
+		    else
+			return false;
+		}
+		if(dp[n][target] != null)
+		    return dp[n][target];
+		if(nums[n-1] > target)
+		{
+		    boolean skip = isPresent(target,count,sum,n1,nums,n-1,dp);
+		    dp[n][target] = skip;
+		    return dp[n][target];
+		}
+		else
+		{
+		    boolean include = isPresent(target-nums[n-1] , count+1 , sum + nums[n-1] , n1 , nums , n-1 , dp);
+		    boolean exclude = isPresent(target , count , sum , n1 , nums , n-1 , dp );
+		    dp[n][target] = include || exclude;
+		    return dp[n][target];
+		}
+	\
+	   }
+	}
+
+
+
+## 47. Permutations II
+
+	class Solution {
+	    List<List<Integer>> ml;
+	    public List<List<Integer>> permuteUnique(int[] nums) {
+		//main list to store permutations.
+		ml = new ArrayList<>();
+		//visited array to mark an element when it is visited.
+		boolean[] visited = new boolean[nums.length];
+		//Sort the elements.
+		Arrays.sort(nums);
+
+		findPermutations(nums, new ArrayList<>(), visited);
+
+		return ml;
+	    }
+
+	    public void findPermutations(int[] nums, List<Integer> cl, boolean[] visited) {
+		//When size of child list is equal to length of nums array, meaning a permutation is formed, 
+			//so add it in main list.
+		if (cl.size() == nums.length) {
+		    ml.add(new ArrayList<>(cl));
+		    return;
+		}
+
+		for (int i = 0; i < nums.length; i++) {
+		    //If the element is visited or it is a duplicate, then continue.
+		    if (visited[i] || (i > 0 && nums[i] == nums[i - 1]) && !visited[i - 1]) {
+			continue;
+		    }
+
+		    //Mark the element visited.
+		    visited[i] = true;
+		    //Add it in child list.
+		    cl.add(nums[i]);
+
+		    findPermutations(nums, cl, visited);
+
+		    //Backtracking : Remove the recently added element.
+		    cl.remove(cl.size() - 1);
+		    //Mark the element unvisited.
+		    visited[i] = false;
+		}
+	    }
+	}
+
+
+
+## 31. Next Permutation
+
+	class Solution {
+	    public void nextPermutation(int[] arr) {
+		int n = arr.length;
+
+		int pivot = -1;
+		for(int i=n-2; i>=0; --i){
+		    if(arr[i]<arr[i+1]){
+			pivot=i; 
+			break;
+		    }
+		}
+		// this means no valid index found to generate next higher permutation.
+		if(pivot==-1){
+		    reverseArr(arr, -1); // reversing whole arr
+		    return;
+		}
+
+		int biggerInd= -1;
+		for(int i=n-1; i>pivot; --i){
+		    if(arr[i] > arr[pivot]){  // after pivot getting first greater value.
+			biggerInd = i;
+			break;
+		    }
+		}
+
+		swap(arr, pivot, biggerInd); // swapping bigger val to its appropriate place.
+		//since, pivot was the 1st smaller index, this means before pivot values must be greater & reversing is required to get the next higher permutation.
+		reverseArr(arr, pivot);   
+
+	    }
+
+	    public void swap(int[] arr, int i, int j){
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	    }
+
+	    public void reverseArr(int[] arr, int ind){
+		int l=ind+1;
+		int r=arr.length-1;
+		while(l<=r){
+		    swap(arr, l, r);
+		    l++; r--;
+		}
+	    }
+
+	}
+
+
+
+## 37. Sudoku Solver
+
+	class Solution {
+	    private boolean isSafe(char[][] board,int i,int j,int c){
+		for (int p = 0; p < 9; p++) {
+		    if(board[p][j]==c)
+			return false;
+		}
+		for (int p = 0; p < 9; p++) {
+		    if(board[i][p]==c)
+			return false;
+		}
+
+		int row = i-i%3;
+		int col = j-j%3;
+		for(int p = row;p<row+3;p++){
+		    for(int q = col;q<col+3;q++){
+			if(board[p][q] == c){
+			    return false;
+			}
+		    }
+		}
+		return true;
+	    }
+	    public boolean dfs(char[][] board){
+		for(int i=0;i<9;i++){
+		    for(int j=0;j<9;j++){
+			if(board[i][j]=='.'){
+			    for(char k='1';k<='9';k++){
+				if(isSafe(board,i,j,k)){
+				    board[i][j] = k;
+				    if(dfs(board))
+					return true;
+				    else
+					board[i][j]='.';
+				}
+
+			    }
+			    // this is bcoz we are unable to generate a valid sudoko with all the possible explorations.
+			    return false;
+			}
+		    }
+		}
+		return true;
+	    }
+	    public void solveSudoku(char[][] board) {
+		if(board.length==0) {
+		    return;
+		}
+		dfs(board);
+	    }
+	}
+
+
+
+## 40. Combination Sum II
+
+	class Solution {
+	    List<List<Integer>> ans = new ArrayList<>();
+	    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+		Arrays.sort(candidates);
+		backtracking(candidates,target,0,new ArrayList<>());
+		return ans;
+	    }
+	    public void backtracking(int [] candidates,int target,int rejected, ArrayList<Integer> list){
+		if(target<0){
+		    return;
+		}
+		if(target==0){
+		    ans.add(new ArrayList<>(list));
+		    return;
+		}
+		for(int i=rejected;i<candidates.length;i++){
+		    if(i>rejected && candidates[i]==candidates[i-1]){
+			continue;
+		    }
+		    list.add(candidates[i]);
+		    backtracking(candidates,target-candidates[i],i+1,list);
+		    list.remove(list.size()-1);
+		}
+	    }
+	}
