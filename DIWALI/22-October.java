@@ -252,3 +252,170 @@
             return max;
         }
     }
+
+
+
+
+
+## 2280. Minimum Lines to Represent a Line Chart
+
+    class Solution {
+        public int maximumTop(int[] nums, int k) {
+            if(k % 2 == 1 && nums.length == 1) return -1;
+            int ans = -1;
+            if(k > nums.length){
+                for(int num : nums) ans = Math.max(ans, num);
+            }
+            else{
+                for(int i = 0; i < k - 1; i++){
+                    ans = Math.max(ans, nums[i]);
+                }
+                if(k < nums.length) ans = Math.max(ans, nums[k]);
+            }
+            return ans;
+        }
+    }
+
+
+
+
+## 2280. Minimum Lines to Represent a Line Chart
+
+    class Solution {
+        // check for collinearity of 3 points is there slope is equal
+        // => (y2 - y1) / (x2 - x1) = (y1 - y0) / (x1 - x0)
+    //     => (y2 - y1) * (x1 - x0) = (y1 - y0) * (x2 - x1) (cross multiplication)
+        // if lhs == rhs then points are collinear else points are not collinear
+        public int minimumLines(int[][] stockPrices) {
+            if(stockPrices.length == 1) return 0;
+
+            Arrays.sort(stockPrices, (a, b) -> a[0] - b[0]);
+            int lines = 1;
+
+
+            for(int i = 2; i < stockPrices.length; i++){
+                int x0 = stockPrices[i][0];
+                int x1 = stockPrices[i - 1][0];
+                int x2 = stockPrices[i - 2][0];
+                int y0 = stockPrices[i][1];
+                int y1 = stockPrices[i - 1][1];
+                int y2 = stockPrices[i - 2][1];
+
+                int lhs = (y2 - y1) * (x1 - x0);
+                int rhs = (y1 - y0) * (x2 - x1);
+                if(lhs != rhs){ // points are not collinear  -> they will not lie in same line
+                    lines++;
+                }
+            }
+            return lines;
+        }
+    }
+
+
+
+
+## 1191. K-Concatenation Maximum Sum
+
+    class Solution {
+        public int kConcatenationMaxSum(int[] arr, int k) {
+            int n = arr.length;
+            if(k==1){
+                long ans=0L, sum=0L;
+                for(int i=0;i<n;i++){
+                    sum+=arr[i];
+                    ans=Math.max(ans,sum);
+                    if(sum<0) sum=0;
+                }
+                return (int)(ans%1000000007);
+            }else{
+                ArrayList<Integer> ar = new ArrayList<>();
+                for(int i=0;i<n;i++) ar.add(arr[i]);
+                long s=0L;
+                for(int i=0;i<n;i++) s+=ar.get(i);
+                if(s<=0){
+                    for(int i=0;i<n;i++) ar.add(ar.get(i));
+                    long ans=0L, sum=0L;
+                    for(int i=0;i<(n*2);i++){
+                        sum+=ar.get(i);
+                        ans=Math.max(ans,sum);
+                        if(sum<0) sum=0;
+                    }
+                    return (int)(ans%1000000007);
+                }else{
+                    for(int i=0;i<n;i++) ar.add(ar.get(i));
+                    long ans=0L, sum=0L;
+                    for(int i=0;i<(n*2);i++){
+                        sum+=ar.get(i);
+                        ans=Math.max(ans,sum);
+                        if(sum<0) sum=0;
+                    }
+                    for(int i=0;i<k-2;i++) ans+=s;
+                    return (int)(ans%1000000007);
+                }
+            }
+        }
+    }
+
+
+
+
+
+## 665. Non-decreasing Array
+
+    class Solution {
+        public boolean checkPossibility(int[] nums) {
+
+            return checkInForwardDirection(nums) || checkInBackwardDirection(nums);
+        }
+
+        private boolean checkInForwardDirection(int[] nums){
+            int issueIndex = -1;
+            int num = 0;
+            for(int i = 0; i < nums.length - 1; i++){
+                //fix the issue, if found
+                if(nums[i] > nums[i + 1]){
+                    issueIndex = i;
+                    num = nums[i + 1];
+                    nums[i + 1] = nums[i]; 
+                    break;
+                }
+            }
+
+            //no issue found, it mean nums is already non - decreasing
+            if(issueIndex == -1) return true;
+
+            //check once again, it becomes completely non - decreasing or not
+            //after fixing the issue
+            if(isNonDecreasing(nums)) return true;
+
+            //restore array back to original
+            nums[issueIndex + 1] = num;
+
+            return false;
+        }
+
+        private boolean checkInBackwardDirection(int[] nums){
+
+            for(int i = nums.length - 1; i > 0; i--){
+                //fix the issue, if found
+                if(nums[i] < nums[i - 1]){
+                    nums[i - 1] = nums[i];
+                    break;
+                }
+            }
+
+            //check once again, it becomes completely non - decreasing or not
+            return isNonDecreasing(nums); 
+        }
+
+        private boolean isNonDecreasing(int[] nums){
+            for(int i = 0; i < nums.length - 1; i++){
+                if(nums[i] > nums[i + 1]) return false;
+            }
+            return true;
+        }
+    }
+
+
+
+
