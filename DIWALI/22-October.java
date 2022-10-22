@@ -730,3 +730,315 @@
 		}
 	    }
 	}
+
+
+
+
+
+
+## 295. Find Median from Data Stream
+
+	class MedianFinder {
+
+	    private Queue<Integer> largeNumMinHeap;                     // Min-Heap storing larger numbers, will store at most k ints
+	    private Queue<Integer> smallNumsMaxHeap;                    // Max-Heap storing smaller numbers, will store at most k + 1 ints
+
+	    public MedianFinder() {
+		this.largeNumMinHeap = new PriorityQueue<Integer>((a, b) -> Integer.compare(a, b));
+		this.smallNumsMaxHeap = new PriorityQueue<Integer>((a,b) -> Integer.compare(b, a));
+	    }
+	    public void addNum(int num) {
+		smallNumsMaxHeap.offer(num);
+		largeNumMinHeap.offer(smallNumsMaxHeap.poll());
+		if (smallNumsMaxHeap.size() < largeNumMinHeap.size())
+		{
+		    smallNumsMaxHeap.offer(largeNumMinHeap.poll());
+		}
+	    }
+	    public double findMedian() {
+		if (smallNumsMaxHeap.size() > largeNumMinHeap.size())
+		{
+		    return smallNumsMaxHeap.peek();
+		}
+		else
+		{
+		    return (smallNumsMaxHeap.peek() + largeNumMinHeap.peek()) / 2.0;
+		}
+	    }
+	}
+
+
+239. Sliding Window Maximum
+
+	class Solution {
+	    public int[] maxSlidingWindow(int[] nums, int k) {
+		Deque<Integer> dq = new LinkedList();
+		int n = nums.length;
+		int ans[] = new int[n-k+1];
+
+		for(int l = 0, r = 0; r < n; r++)
+		{
+		    // Left boundary of the window.
+		    l = r - k + 1;
+		    int curr = nums[r];
+
+		    // Check recently added index and remove it if less than current element,
+		    // to maintain the decreasing order in the Queue(deck).
+		    while(!dq.isEmpty() && nums[dq.peekLast()] < curr)
+			dq.pollLast();
+		    dq.addLast(r);
+
+		    // Remove the left index from queue, if it is outside the window.
+		    if(!dq.isEmpty() && l > dq.peekFirst())
+			dq.pollFirst();
+
+		    if(r+1 >= k)
+		    {
+			ans[l] = nums[dq.peekFirst()];
+			l++;
+		    }
+		}
+
+		return ans;
+	    }
+	}
+
+
+## 124. Binary Tree Maximum Path Sum
+
+	class Solution {
+
+	    public int maxPathSum(TreeNode root) {
+
+		 int[] maxSum = new int[1];
+		 maxSum[0] = Integer.MIN_VALUE; 
+
+		findPathSum(root,maxSum);
+		return maxSum[0];
+	    }
+	    private int findPathSum(TreeNode root,int[] maxSum) {
+		if(root == null) return 0;
+
+		int left = Math.max(0 , findPathSum(root.left , maxSum));
+		int right = Math.max(0 , findPathSum(root.right , maxSum));
+
+		maxSum[0] = Math.max(maxSum[0] , left + right + root.val);
+
+		return root.val + Math.max(left , right);
+	    }
+	}
+
+
+
+## 51. N-Queens
+
+	class Solution {
+	  public List<List<String>> solveNQueens(int n) {
+	    boolean[][] board = new boolean[n][n];
+	    List<List<String>> answer = new ArrayList<>();
+	    queens(board,0,answer);
+	    return answer;
+	}
+	void queens(boolean[][] board,int row,List<List<String>> answer){
+
+	    if(row==board.length){
+		List<String> res = insert(board);
+		answer.add(res);
+		return;
+	    }
+
+	    // Placing Queens and Checking for every row and column
+	    for(int col=0;col<board.length;col++){
+		//place queen if Safe
+		if(isSafe(board,row,col)){
+		    board[row][col] = true;
+		    queens(board,row+1,answer); //Recursive call
+		    board[row][col] = false;    // Backtrack
+		}
+	    }
+	}
+
+	boolean isSafe(boolean[][] board, int row ,int col){
+
+	    // Vertical row
+	    for(int i=0;i<row;i++){
+		if(board[i][col])
+		    return false;
+	    }
+
+	    // Left diagonal
+	    int maxLeft = Math.min(row,col);
+	    for(int i=1;i<=maxLeft;i++){
+		if(board[row-i][col-i]){
+		    return false;
+		}
+	    }
+
+	    // Right diagonal
+	    int maxRight = Math.min(row,board.length-col-1);
+	    for(int i=1;i<=maxRight;i++){
+		if(board[row-i][col+i]){
+		    return false;
+		}
+	    }
+	    return true;
+	}
+
+	  List<String> insert(boolean[][] board){
+
+	    List<String> ans = new ArrayList<>();
+	    for(boolean[] row: board){
+		String S = "";
+		for(boolean element:row){
+		    if(element){
+			S += "Q";
+		    }
+		    else
+			S += ".";
+		}
+		ans.add(S);
+	    }
+	      return ans;
+	}
+	}
+
+
+
+## 32. Longest Valid Parentheses
+
+	class Solution {
+	public int longestValidParentheses(String s) {
+		if(s==null){
+		    return 0;
+		}
+		Stack<Integer> stk = new Stack();
+		int result = 0;
+		int lastI = -1; //it will remain -1 for ()() , (()). Will change if extra closing ')' is encountered e.g. ) ()()
+	    // note we are pushing only ( in the stack
+		for(int i=0; i<s.length(); i++) {
+		    if(s.charAt(i)=='(') {
+			stk.push(i);      
+		    } 
+
+		    else {
+
+			if(!stk.isEmpty()) { // there is matching '(' in stack
+			    stk.pop();  //remove matching '('
+			    //find valid string start based on stack emptiness
+
+			    if(!stk.isEmpty()) { 
+				//there are unclosed '(' other than the one popped '(' in prev line e.g. for (()  , ( is still in stack
+				result = Math.max(result, i-stk.peek());
+				//so valid str len will start after unclosed '(' which is still in stack 
+			    }
+			    else 
+			    {
+				result = Math.max(result, i-lastI); //stack is empty now, use lastI to find the begining which is either after 0 for which lastI = -1 for it or  after extra ) e.g. ()() -> lastI =-1 or )()() -> lastI = 0
+			    }    
+
+			} 
+
+			else //(while stack is empty and we get )
+			{ 
+			    // there is extra ) that has no matching '(', preserve the lastI
+			    // this is case for like )()()
+			    lastI = i;
+			}
+		    }
+		}
+		return result;
+	    }
+	 } 
+
+
+
+## 25. Reverse Nodes in k-Group
+
+	class Solution {
+	    public ListNode reverseKGroup(ListNode head, int k) {
+	       if(k==1){
+		   return head;
+	       } 
+		ListNode left=head;
+		ListNode right=head;
+		ListNode prev=null;
+		int j=0;
+		while(right!=null && right.next!=null){
+		int i=1;
+		    while(i<k &&right!=null){
+		     right=right.next; 
+		    i++;
+		   }
+		   if(right!=null){
+		       reverse(left,right,prev);
+		       j++;
+		   }else{
+		       break;
+		   }
+		    if(j==1){
+			head=right;
+		    }
+		    if(prev!=null){
+		   prev.next=right;
+		    }
+		   prev=left;
+		   right=left.next;
+		   left=left.next;
+		} 
+		return head;
+	    }
+	    public void reverse(ListNode left,ListNode right,ListNode prev){
+		ListNode temp=left;
+		ListNode last=prev;
+	      while(prev!=right){
+
+	       ListNode frwd=left.next;
+		left.next=prev;
+		prev=left;
+		left=frwd;
+	     }
+	      temp.next=left;
+		if(last!=null){
+		last.next=right;
+		} 
+	    }
+	}
+
+
+
+## 23. Merge k Sorted Lists
+
+	class Solution {
+	    public ListNode mergeKLists(ListNode[] lists) {
+
+	/*
+	Intuition behind the approach is to initialise a min heap and then add every element of the list to the min heap.
+	Since it is a min heap, therefore root will be the smallest element and we can extract it and add to the new list.
+
+
+	*/
+		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+		//ading everything to the new priority queue
+		for(ListNode ln : lists) {
+		    while(ln != null) {
+			pq.add(ln.val);
+			ln = ln.next;
+		    }
+		}
+		//list to store the sorted list
+		ListNode head = new ListNode(0);
+		ListNode h = head;
+
+		while(!pq.isEmpty()) {
+		    ListNode t = new ListNode(pq.poll());
+		    h.next = t;
+		    h = h.next;
+		}
+
+		return head.next;
+
+	    }
+	}
+
+
+
