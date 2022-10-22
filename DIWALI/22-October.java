@@ -1551,5 +1551,44 @@
 
 
 
+## 236. Lowest Common Ancestor of a Binary Tree
 
+	class Solution {
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		if(root == null) return null;
+
+		TreeNode left = lowestCommonAncestor(root.left, p, q);
+		TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+
+		if((left != null && right != null) || (root == p) || (root == q)){
+		    return root;
+		}else if(left!=null) return left;
+
+		return right;
+	    }
+	}
+
+
+
+
+## 160. Intersection of Two Linked Lists
+
+	public class Solution {
+	    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+		//if any one of is Null
+
+		if(headA==null||headB==null) return null;
+
+
+		ListNode a=headA;
+		ListNode b= headB;
+		while(a!=b){
+		    a=a==null? headB : a.next;
+		     b=b==null? headA : b.next;
+		}
+		return a;
+
+	    }
+	}
 
