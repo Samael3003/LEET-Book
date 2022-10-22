@@ -1207,3 +1207,166 @@
 		return false;    
 	    }
 	}
+
+
+
+## 105. Construct Binary Tree from Preorder and Inorder Traversal
+
+	class Solution {
+	    int preStart;
+	    TreeNode buildTreeHelper(int[]preorder, int[]inorder, int is, int ie){
+		if(is > ie){
+		    return null;
+		}
+		TreeNode root = new TreeNode(preorder[preStart]);
+		preStart++;
+		if(is == ie){
+		    return root;
+		}
+		int rootIndex = -1;
+		for(int i = is; i<=ie; i++){
+		    if(inorder[i] == root.val){
+			rootIndex = i;
+			break;
+		    }
+		}
+		root.left = buildTreeHelper(preorder,inorder,is,rootIndex-1);
+		root.right = buildTreeHelper(preorder,inorder,rootIndex+1,ie);
+		return root;
+	    }
+	    public TreeNode buildTree(int[] preorder, int[] inorder) {
+		preStart = 0;
+		return buildTreeHelper(preorder,inorder,0,inorder.length-1);
+	    }
+	}
+
+
+
+
+## 128. Longest Consecutive Sequence
+
+	class Solution {
+	public int longestConsecutive(int[] nums)
+	{
+	if(nums.length<1)
+	return 0;
+
+	    Arrays.sort(nums);
+
+	    int j=0;
+	    int max=0;
+	    for(int i=0;i<nums.length-1;i++)
+	    {
+		int x = nums[i+1]-nums[i];
+		if(x==1)
+		    j++;
+		else if(x != 1 && x !=0)
+		{
+		    j=0;
+		}
+		max = Math.max(max,j);     
+	    }
+	    return max+1;
+	}
+
+	}
+
+
+
+## 131. Palindrome Partitioning
+
+	class Solution {
+	    public List<List<String>> partition(String s) {
+		List<List<String>> ans=new ArrayList<>();
+		partition(s,new ArrayList<>(),ans);
+		return ans;
+	    }
+
+	    public void partition (String s,List<String> list, List<List<String>> ans){
+		//Base case : when we are done traversing the whole string
+		if(s.length()==0){
+		    ans.add(new ArrayList<String>(list));
+		    return ;
+		}
+
+		for(int i=0;i<s.length();i++){
+		    String prefix=s.substring(0,i+1);
+		    String ros=s.substring(i+1);
+		    if(isPallin(prefix)){
+			list.add(prefix);
+			partition(ros,list,ans);
+			list.remove(list.size()-1); //backtracking 
+		    }
+		}
+	    }
+
+	    public boolean isPallin(String x){
+		int i=0,j=x.length()-1;
+		while(i<j){
+		    if(x.charAt(i)==x.charAt(j)){
+			i++; j--;
+		    }
+		    else
+			return false;
+		}
+		return true;
+	    }
+	}
+
+
+
+## 146. LRU Cache
+
+	class LRUCache {
+	    Node head = new Node(0,0); 
+	    Node tail = new Node(0,0);
+	    Map<Integer,Node> map = new HashMap<>();
+	    int limit=0;
+	    public LRUCache(int capacity) {
+		limit = capacity;
+		head.next=tail;
+		tail.prev=head;
+	    }
+
+	    public int get(int key) {
+		if(map.containsKey(key)){
+		    Node node = map.get(key);
+		    remove(node);
+		    insert(node);
+		    return node.data;
+		}else
+		return -1;
+	    }
+
+	    public void put(int key, int value) {
+		if(map.containsKey(key))
+		remove(map.get(key));
+		if(map.size()==limit)
+		remove(tail.prev);
+		insert(new Node(key,value));
+	    }
+	    public void remove(Node node){
+		map.remove(node.key);
+		node.prev.next = node.next;
+		node.next.prev = node.prev;
+	    }
+	    public void insert(Node node){
+		map.put(node.key, node);
+		Node newNode = head.next;
+		head.next = node;
+		node.prev=head;
+		newNode.prev=node; 
+		node.next=newNode;
+	    }
+	}
+	class Node{
+	    int data,key;
+	    Node next;
+	    Node prev;
+	    Node(int key,int data){
+		this.data=data;
+		this.key= key;
+		this.next = null;
+		this.prev=null;
+	    }
+	}
