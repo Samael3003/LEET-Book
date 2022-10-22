@@ -1042,3 +1042,168 @@
 
 
 
+
+
+
+## 22. Generate Parentheses
+
+	class Solution {
+	    public List<String> generateParenthesis(int n) {
+		    List<String> res=new ArrayList<>();
+		    if(n<1)
+			return res;
+		    solve(res, n, 0, 0, "");
+		    return res;
+		}
+
+		void solve(List<String> res, int n, int open, int close, String str){
+		    if(open==close && close==n){
+			res.add(str);
+			return;
+		    }
+		    if(open<n)
+			solve(res, n, open+1, close, str+"(");
+		    if(close<open)
+			solve(res, n, open, close+1, str+")");
+		}
+	}
+
+
+
+## 24. Swap Nodes in Pairs
+
+	class Solution {
+
+		public ListNode swapPairs(ListNode head) {
+			if (head == null || head.next == null)
+				return head;
+			ListNode dummy = new ListNode(0);
+			ListNode prev = dummy;
+			dummy.next = head;
+			ListNode curr = head;
+			ListNode forw = null;
+			while (curr != null && curr.next != null) {
+				forw = curr.next;
+				curr.next = forw.next;
+				prev.next = forw;
+				forw.next = curr;
+
+				prev = prev.next.next;
+				curr = curr.next;
+
+			}
+			return dummy.next;
+		}
+
+	}
+
+
+
+## 73. Set Matrix Zeroes
+
+	class Solution {
+	    public void setZeroes(int[][] matrix) {
+		int m = matrix.length;
+		int n = matrix[0].length;
+
+		// Store the rows and columns number where there is a 0.
+		List<Integer> rows = new ArrayList<> ();
+		List<Integer> cols = new ArrayList<> ();
+
+		for(int i = 0; i < m; i++){
+		    for(int j = 0; j < n; j++){
+
+			// Check if whether paricular column and row 
+			// has 0 or not. If it has then add row and column
+			// to the corresponding list.
+			if(matrix[i][j] == 0){
+			    rows.add(i);
+			    cols.add(j);
+			}
+		    }
+		}
+
+		// Traverse through rows and columns if they stored
+		// any value that means this particular row and column
+		// has 0.
+		for(int i = 0; i < rows.size(); i++){
+		    int row = rows.get(i);
+		    int col = cols.get(i);
+
+		    // Put 0 to all the cell of the row.
+		    for(int j = 0; j < n; j++){
+			matrix[row][j] = 0;
+		    }
+
+		    // Put 0 to all the cell of the column.
+		    for(int k = 0; k < m; k++){
+			matrix[k][col] = 0;
+		    }
+		}
+	    }
+	}
+
+
+
+## 78. Subsets
+
+	class Solution {
+
+	    void solve(int[] nums,int ind,List<List<Integer>> ans,List<Integer> temp){
+
+
+		if(ind >= nums.length){
+
+		    // remember to copy the arraylist in an another array list before placing it in             the ans else it will not be included in the final ans
+		    List<Integer> ls = new ArrayList<>();
+		    for(Integer a: temp){
+			ls.add(a);
+		    }
+		    ans.add(ls);
+		    return;
+		}
+
+		temp.add(nums[ind]);
+		solve(nums,ind+1,ans,temp);
+		temp.remove(temp.size()-1);  
+		solve(nums,ind+1,ans,temp);
+	    }
+
+	    public List<List<Integer>> subsets(int[] nums) {
+		List<List<Integer>> ans = new ArrayList<>();
+		List<Integer> temp = new ArrayList<>();
+		solve(nums,0,ans,temp);
+		return ans;
+	    }
+	}
+
+
+
+## 78. Subsets
+
+	class Solution {
+	    public boolean check(char[][] board,String s,int idx,int i,int j,boolean[][] visited){
+		if(idx==s.length()){
+		    return true;
+		}
+		if(i<0 || j<0 || i>=board.length || j>=board[0].length || visited[i][j]==true || s.charAt(idx)!=board[i][j]) return false;
+		visited[i][j] = true;
+		if(check(board,s,idx+1,i+1,j,visited)) return true;
+		if(check(board,s,idx+1,i,j+1,visited)) return true;
+		if(check(board,s,idx+1,i,j-1,visited)) return true;
+		if(check(board,s,idx+1,i-1,j,visited)) return true;
+		visited[i][j] = false;
+		return false;
+	    }
+	    public boolean exist(char[][] board, String word) {
+		for(int i=0;i<board.length;i++){
+		    for(int j=0;j<board[0].length;j++){
+			if(word.charAt(0)==board[i][j]){
+			    boolean[][] visited = new boolean[board.length][board[0].length];
+			    if(check(board,word,0,i,j,visited)) return true;
+			}
+		    }
+		}
+		return false;    
+	    }
+	}
