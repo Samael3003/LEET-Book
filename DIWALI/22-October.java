@@ -364,10 +364,8 @@
 
     class Solution {
         public boolean checkPossibility(int[] nums) {
-
             return checkInForwardDirection(nums) || checkInBackwardDirection(nums);
         }
-
         private boolean checkInForwardDirection(int[] nums){
             int issueIndex = -1;
             int num = 0;
@@ -380,22 +378,16 @@
                     break;
                 }
             }
-
             //no issue found, it mean nums is already non - decreasing
             if(issueIndex == -1) return true;
-
             //check once again, it becomes completely non - decreasing or not
             //after fixing the issue
             if(isNonDecreasing(nums)) return true;
-
             //restore array back to original
             nums[issueIndex + 1] = num;
-
             return false;
         }
-
         private boolean checkInBackwardDirection(int[] nums){
-
             for(int i = nums.length - 1; i > 0; i--){
                 //fix the issue, if found
                 if(nums[i] < nums[i - 1]){
@@ -403,11 +395,9 @@
                     break;
                 }
             }
-
             //check once again, it becomes completely non - decreasing or not
             return isNonDecreasing(nums); 
         }
-
         private boolean isNonDecreasing(int[] nums){
             for(int i = 0; i < nums.length - 1; i++){
                 if(nums[i] > nums[i + 1]) return false;
