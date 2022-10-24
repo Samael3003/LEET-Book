@@ -313,3 +313,143 @@
             return Math.min(cost[cost.length - 1], cost[cost.length - 2]);
         }
     }
+
+
+
+
+## 199. Binary Tree Right Side View
+
+    public class Solution {
+        public List<Integer> rightSideView(TreeNode root) {
+            List<Integer> result = new ArrayList<Integer>();
+            rightView(root, result, 0);
+            return result;
+        }
+
+        public void rightView(TreeNode curr, List<Integer> result, int currDepth){
+            if(curr == null){
+                return;
+            }
+            if(currDepth == result.size()){
+                result.add(curr.val);
+            }
+
+            rightView(curr.right, result, currDepth + 1);
+            rightView(curr.left, result, currDepth + 1);
+
+        }
+    }
+
+
+
+## 473. Matchsticks to Square
+
+    class Solution {
+        public boolean makesquare(int[] M) {
+            Arrays.sort(M);
+            int total = 0;
+            for (int i = 0; i < M.length; i++)
+                total += M[i];
+            side = total / 4;
+            if ((float)total / 4 > side || M[M.length-1] > side)
+                return false;
+            return btrack(M.length-1, side, 0, M);
+        }
+        private int side;
+        private boolean btrack(int i, int space, int done, int[] M) {
+            if (done == 3)
+                return true;
+            for (; i >= 0; i--) {
+                int num = M[i];
+                boolean res;
+                if (num > space)
+                    continue;
+                M[i] = side + 1;
+                if (num == space)
+                    res = btrack(M.length-2, side, done+1, M);
+                else
+                    res = btrack(i-1, space-num, done, M);
+                if (res)
+                    return true;
+                M[i] = num;
+                while (i > 0 && M[i-1] == num)
+                    i--;
+            }
+            return false;
+        }
+    }
+
+
+
+102. Binary Tree Level Order Traversal
+
+    public class Solution {
+        public List<List<Integer>> levelOrder(TreeNode root) 
+        {
+            Queue<TreeNode> queue = new LinkedList<TreeNode>();
+            List<List<Integer>> res = new LinkedList<List<Integer>>();
+
+            if(root == null) return res;
+
+            queue.offer(root);
+            while(!queue.isEmpty())
+            {
+                int levelNum = queue.size();
+                List<Integer> subans = new LinkedList<Integer>();
+                for(int i=0; i<levelNum; i++) 
+                {
+                    if(queue.peek().left != null) queue.offer(queue.peek().left);
+                    if(queue.peek().right != null) queue.offer(queue.peek().right);
+                    subans.add(queue.poll().val);
+                }
+                res.add(subans);
+            }
+            return res;
+        }
+    }
+
+
+
+105. Construct Binary Tree from Preorder and Inorder Traversal
+
+    class Solution {
+        public TreeNode buildTree(int[] P, int[] I) {
+            Map<Integer, Integer> M = new HashMap<>();
+            for (int i = 0; i < I.length; i++)
+                M.put(I[i], i);
+            return splitTree(P, M, 0, 0, I.length-1);
+        }
+
+        private TreeNode splitTree(int[] P, Map<Integer, Integer> M, int pix, int ileft, int iright) {
+            int rval = P[pix], imid = M.get(rval);
+            TreeNode root = new TreeNode(rval);            
+            if (imid > ileft)
+                root.left = splitTree(P, M, pix+1, ileft, imid-1);
+            if (imid < iright)
+                root.right = splitTree(P, M, pix+imid-ileft+1, imid+1, iright);
+            return root;
+        }
+    }
+
+
+
+## 695. Max Area of Island
+
+    class Solution {
+        private int n, m;
+        public int maxAreaOfIsland(int[][] grid) {
+            int ans = 0;
+            n = grid.length;
+            m = grid[0].length;
+            for (int i = 0; i < n; i++) 
+                for (int j = 0; j < m; j++)
+                    if (grid[i][j] > 0) ans = Math.max(ans, trav(i, j, grid));
+            return ans;
+        }
+        private int trav(int i, int j, int[][] grid) {
+            if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] < 1) return 0;
+            grid[i][j] = 0;
+            return 1 + trav(i-1, j, grid) + trav(i, j-1, grid) + trav(i+1, j, grid) + trav(i, j+1, grid);
+        }
+    }
+    
