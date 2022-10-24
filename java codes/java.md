@@ -344,3 +344,26 @@
         }
         
         return result; //return result list
+
+# 19- Remove_Nth_Node_From_End_of_List
+        class Solution {
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            ListNode slow, fast, curr;
+            slow = head; fast = head;
+            for (int i = 0; i < n; i++)
+                fast = fast.next;
+            // n == len
+            if (fast == null) {
+                head = head.next;
+                return head;
+            }
+            // Move both pointers, until reach tail
+            while (fast.next != null) {
+                fast = fast.next;
+                slow = slow.next;
+            }
+            curr = slow.next;
+            slow.next = curr.next;
+            return head;
+        }
+    }
