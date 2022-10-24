@@ -453,3 +453,162 @@
         }
     }
     
+
+
+
+
+## 576. Out of Boundary Paths
+
+    class Solution {
+        public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+            if (maxMove == 0) return 0;
+            int[][] dpCurr = new int[m+2][n+2], dpLast = new int[m+2][n+2];
+            for (int i = 1; i <= m; i++) {
+                dpCurr[i][1]++;
+                dpCurr[i][n]++;
+            }
+            for (int j = 1; j <= n; j++) {
+                dpCurr[1][j]++;
+                dpCurr[m][j]++;
+            }
+            int ans = dpCurr[startRow+1][startColumn+1];
+            for (int d = 1; d < maxMove; d++) {
+                int[][] temp = dpCurr;
+                dpCurr = dpLast;
+                dpLast = temp;
+                for (int i = 1; i <= m; i++)
+                    for (int j = 1; j <= n; j++)
+                        dpCurr[i][j] = (int)(((long)dpLast[i-1][j] + dpLast[i+1][j] + dpLast[i][j-1] + dpLast[i][j+1]) % 1000000007L);
+                ans = (ans + dpCurr[startRow+1][startColumn+1]) % 1000000007;
+            }
+            return ans;
+        }
+    }
+
+
+
+## 629. K Inverse Pairs Array
+
+    class Solution {
+        public int kInversePairs(int n, int k) {
+            if (k > n * (n - 1) / 2) // n numbers can generate at most n * (n - 1) / 2 inverse pairs
+                return 0;
+
+            if (k == n * (n - 1) / 2 || k == 0)
+                return 1;
+
+            int mod = 1000000007;
+            int[][] dp = new int[n + 1][k + 1];
+
+            for (int i = 1; i < n + 1; i++) {
+                dp[i][0] = 1; // deal with j = 0
+                for (int j = 1; j < Math.min(k, i * (i - 1) / 2) + 1; j++) {
+                    dp[i][j] = (dp[i][j - 1] + dp[i - 1][j] - (j >= i ? dp[i - 1][j - i] : 0)) % mod;
+                    // all dp[i][j] modulo 10^9 + 7
+                    // so dp[i - 1][j - 1] might bigger than dp[i][j - 1] + dp[i - 1][j]
+                    if (dp[i][j] < 0) 
+                        dp[i][j] += mod;
+                }
+            }
+
+            return dp[n][k];
+        }
+    }
+
+
+
+## 1074. Number of Submatrices That Sum to Target
+
+    class Solution {
+        public int numSubmatrixSumTarget(int[][] matrix, int target) {
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            // aux[i][j] is the sum of sub-matrix which start at [0][0] and end in [i][j]
+            int[][] aux = new int[m + 1][n + 1]; // padding on top and left
+            for (int i = 1; i < m + 1; i++) {
+                for (int j = 1; j < n + 1; j++) {
+                    // draw a picture, you will understand it easily~
+                    aux[i][j] = matrix[i - 1][j - 1] + aux[i - 1][j] + aux[i][j - 1] - aux[i - 1][j - 1]; 
+                }
+            }
+
+            int res = 0;
+            // try each sub-matrix
+            for (int x1 = 1; x1 < m + 1; x1++) {
+                for (int y1 = 1; y1 < n + 1; y1++) {
+                    for (int x2 = x1; x2 < m + 1; x2++) {
+                        for (int y2 = y1; y2 < n + 1; y2++) {
+                            if (target == aux[x2][y2] - aux[x2][y1 - 1] - aux[x1 - 1][y2] + aux[x1 - 1][y1 - 1])
+                                res++;
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
+    }
+
+
+
+
+## 118. Pascal's Triangle
+
+    class Solution {
+        public List<List<Integer>> generate(int numRows) {
+            List<List<Integer>> res = new ArrayList<List<Integer>>();
+            List<Integer> row, pre = null;
+            for (int i = 0; i < numRows; ++i) {
+                row = new ArrayList<Integer>();
+                for (int j = 0; j <= i; ++j)
+                    if (j == 0 || j == i)
+                        row.add(1);
+                    else
+                        row.add(pre.get(j - 1) + pre.get(j));
+                pre = row;
+                res.add(row);
+            }
+            return res;
+        }
+    }
+
+
+
+## 792. Number of Matching Subsequences
+
+    class Solution {
+        public int numMatchingSubseq(String s, String[] words) {
+
+            Map<String,Integer> map = new HashMap<>();
+            for(String str:words){
+                map.put(str,map.getOrDefault(str,0)+1);
+            }
+
+            int ans = 0;
+            char ch[] = s.toCharArray();
+
+            for(String str:map.keySet()){
+
+                char temp[] = str.toCharArray();
+                int i = 0;
+                int j = 0;
+
+                while(i<ch.length && j<temp.length){
+                    if(ch[i]==temp[j]){
+                        i++;
+                        j++;
+                    }else{
+                        i++;
+                    }
+                }
+
+                if(j==temp.length){
+                    ans+=map.get(str);
+                }
+
+            }
+
+          return ans;  
+        }
+    }
