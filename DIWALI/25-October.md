@@ -158,3 +158,23 @@
     
 > Runtime: 3 ms, faster than 8.11% of Java online submissions for Find First and Last Position of Element in Sorted Array.
 > Memory Usage: 47.1 MB, less than 57.55% of Java online submissions for Find First and Last Position of Element in Sorted Array.    
+
+
+
+
+
+## 236. Lowest Common Ancestor of a Binary Tree
+
+
+    class Solution {
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null || root == p || root == q) return root;
+            TreeNode left = lowestCommonAncestor(root.left, p, q);
+            TreeNode right = lowestCommonAncestor(root.right, p, q);
+            return left == null ? right : right == null ? left : root;
+        }
+    }
+
+> Runtime: 7 ms, faster than 89.87% of Java online submissions for Lowest Common Ancestor of a Binary Tree.
+
+> Memory Usage: 43.2 MB, less than 97.68% of Java online submissions for Lowest Common Ancestor of a Binary Tree.
