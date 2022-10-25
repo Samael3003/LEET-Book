@@ -106,23 +106,37 @@
 
 **( 20 probs.)**
 
-1710. Maximum Units on a Truck
-1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
-376. Wiggle Subsequence
-135. Candy
-128. Longest Consecutive Sequence
-509. Fibonacci Number
-97. Interleaving String
-1473. Paint House III
-1696. Jump Game VI
-746. Min Cost Climbing Stairs
-199. Binary Tree Right Side View
-473. Matchsticks to Square
-102. Binary Tree Level Order Traversal
-105. Construct Binary Tree from Preorder and Inorder Traversal
-695. Max Area of Island
-576. Out of Boundary Paths
-629. K Inverse Pairs Array
-1074. Number of Submatrices That Sum to Target
-118. Pascal's Triangle
-792. Number of Matching Subsequences
+    1710. Maximum Units on a Truck
+    1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+    376. Wiggle Subsequence
+    135. Candy
+    128. Longest Consecutive Sequence
+    509. Fibonacci Number
+    97. Interleaving String
+    1473. Paint House III
+    1696. Jump Game VI
+    746. Min Cost Climbing Stairs
+    199. Binary Tree Right Side View
+    473. Matchsticks to Square
+    102. Binary Tree Level Order Traversal
+    105. Construct Binary Tree from Preorder and Inorder Traversal
+    695. Max Area of Island
+    576. Out of Boundary Paths
+    629. K Inverse Pairs Array
+    1074. Number of Submatrices That Sum to Target
+    118. Pascal's Triangle
+    792. Number of Matching Subsequences
+
+# 25-October
+**( 10 probs.)**
+
+92. Reverse Linked List II
+86. Partition List
+315. Count of Smaller Numbers After Self
+240. Search a 2D Matrix II
+34. Find First and Last Position of Element in Sorted Array
+236. Lowest Common Ancestor of a Binary Tree
+242. Valid Anagram
+890. Find and Replace Pattern
+916. Word Subsets
+307. Range Sum Query - Mutable
