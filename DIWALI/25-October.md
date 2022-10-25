@@ -96,5 +96,6 @@
     }
     
 > Runtime: 27 ms, faster than 98.88% of Java online submissions for Count of Smaller Numbers After Self.
+
 > Memory Usage: 127.7 MB, less than 82.50% of Java online submissions for Count of Smaller Numbers After Self.
     
