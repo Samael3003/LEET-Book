@@ -33,25 +33,25 @@
 
 86. Partition List
 
-      class Solution {
-          public ListNode partition(ListNode head, int x) {
-              ListNode fdum = new ListNode(0), bdum = new ListNode(0),
-                       front = fdum, back = bdum, curr = head;
-              while (curr != null) {
-                  if (curr.val < x) {
-                      front.next = curr;
-                      front = curr;
-                  } else {
-                      back.next = curr;
-                      back = curr;
-                  }
-                  curr = curr.next;
-              }
-              front.next = bdum.next;
-              back.next = null;
-              return fdum.next;
-          }
-      }
+        class Solution {
+            public ListNode partition(ListNode head, int x) {
+                ListNode fdum = new ListNode(0), bdum = new ListNode(0),
+                         front = fdum, back = bdum, curr = head;
+                while (curr != null) {
+                    if (curr.val < x) {
+                        front.next = curr;
+                        front = curr;
+                    } else {
+                        back.next = curr;
+                        back = curr;
+                    }
+                    curr = curr.next;
+                }
+                front.next = bdum.next;
+                back.next = null;
+                return fdum.next;
+            }
+        }
 
 > Runtime: 1 ms, faster than 79.28% of Java online submissions for Partition List.
 
