@@ -129,3 +129,32 @@
 > Runtime: 14 ms, faster than 28.67% of Java online submissions for Search a 2D Matrix II.
 
 > Memory Usage: 52.9 MB, less than 84.12% of Java online submissions for Search a 2D Matrix II.
+
+
+
+
+
+## 34. Find First and Last Position of Element in Sorted Array
+
+    class Solution {
+        public int[] searchRange(int[] nums, int target) {
+            int []arr = {-1, -1};
+            int i;
+            for(i=0; i<nums.length; i++){
+                if(nums[i] == target){
+                    arr[0] = i;
+                    break;
+                }
+            }
+            if(arr[0] == -1)
+                return arr;
+            while(i < nums.length && nums[i] == target)
+                ++i;
+            arr[1] = --i;
+
+            return arr;
+        }
+    }
+    
+> Runtime: 3 ms, faster than 8.11% of Java online submissions for Find First and Last Position of Element in Sorted Array.
+> Memory Usage: 47.1 MB, less than 57.55% of Java online submissions for Find First and Last Position of Element in Sorted Array.    
