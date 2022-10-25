@@ -104,7 +104,7 @@
 
 # 23-October 
 
-**(  probs.)**
+**( 20 probs.)**
 
 1710. Maximum Units on a Truck
 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
