@@ -235,3 +235,40 @@
 > Runtime: 1 ms, faster than 96.90% of Java online submissions for Find and Replace Pattern.
 
 > Memory Usage: 43 MB, less than 59.29% of Java online submissions for Find and Replace Pattern.                                                     
+
+
+
+
+
+## 916. Word Subsets
+
+    class Solution {
+     public List<String> wordSubsets(String[] A, String[] B) {
+            int[] count = new int[26], tmp;
+            int i;
+            for (String b : B) {
+                tmp = counter(b);
+                for (i = 0; i < 26; ++i)
+                    count[i] = Math.max(count[i], tmp[i]);
+            }
+            List<String> res = new ArrayList<>();
+            for (String a : A) {
+                tmp = counter(a);
+                for (i = 0; i < 26; ++i)
+                    if (tmp[i] < count[i])
+                        break;
+                if (i == 26) res.add(a);
+            }
+            return res;
+        }
+
+        int[] counter(String word) {
+            int[] count = new int[26];
+            for (char c : word.toCharArray()) count[c - 'a']++;
+            return count;
+        }
+    }
+    
+> Runtime: 38 ms, faster than 50.98% of Java online submissions for Word Subsets.
+
+> Memory Usage: 87.9 MB, less than 58.70% of Java online submissions for Word Subsets.    
