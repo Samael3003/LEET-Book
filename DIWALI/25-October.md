@@ -31,7 +31,7 @@
 
 
 
-86. Partition List
+## 86. Partition List
 
         class Solution {
             public ListNode partition(ListNode head, int x) {
