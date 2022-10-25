@@ -208,3 +208,30 @@
 > Runtime: 3 ms, faster than 96.35% of Java online submissions for Valid Anagram.
 
 > Memory Usage: 42.2 MB, less than 94.87% of Java online submissions for Valid Anagram.
+
+
+
+
+
+## 890. Find and Replace Pattern
+
+    class Solution {
+        public List<String> findAndReplacePattern(String[] words, String pattern) {
+            List<String> res = new ArrayList<>();
+            for (String word : words) {
+                if (check(word, pattern)) res.add(word);
+            }
+            return res;
+        }
+
+        boolean check(String a, String b) {
+            for (int i = 0; i < a.length(); i++) {
+                if (a.indexOf(a.charAt(i)) != b.indexOf(b.charAt(i))) return false;
+            }
+            return true;
+        }
+    }
+                                                     
+> Runtime: 1 ms, faster than 96.90% of Java online submissions for Find and Replace Pattern.
+
+> Memory Usage: 43 MB, less than 59.29% of Java online submissions for Find and Replace Pattern.                                                     
