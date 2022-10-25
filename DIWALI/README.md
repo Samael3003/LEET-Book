@@ -130,13 +130,13 @@
 # 25-October
 **( 10 probs.)**
 
-92. Reverse Linked List II
-86. Partition List
-315. Count of Smaller Numbers After Self
-240. Search a 2D Matrix II
-34. Find First and Last Position of Element in Sorted Array
-236. Lowest Common Ancestor of a Binary Tree
-242. Valid Anagram
-890. Find and Replace Pattern
-916. Word Subsets
-307. Range Sum Query - Mutable
+    92. Reverse Linked List II
+    86. Partition List
+    315. Count of Smaller Numbers After Self
+    240. Search a 2D Matrix II
+    34. Find First and Last Position of Element in Sorted Array
+    236. Lowest Common Ancestor of a Binary Tree
+    242. Valid Anagram
+    890. Find and Replace Pattern
+    916. Word Subsets
+    307. Range Sum Query - Mutable
