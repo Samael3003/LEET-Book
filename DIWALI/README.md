@@ -102,7 +102,7 @@
     2449. Minimum Number of Operations to Make Arrays Similar
 
 
-# 23-October 
+# 24-October 
 
 **( 20 probs.)**
 
