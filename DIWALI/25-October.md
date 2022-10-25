@@ -178,3 +178,33 @@
 > Runtime: 7 ms, faster than 89.87% of Java online submissions for Lowest Common Ancestor of a Binary Tree.
 
 > Memory Usage: 43.2 MB, less than 97.68% of Java online submissions for Lowest Common Ancestor of a Binary Tree.
+
+
+
+
+
+## 242. Valid Anagram
+
+    class Solution {
+    public boolean isAnagram(String s, String t)
+    {
+    char arr[] = s.toCharArray();
+    char brr[] = t.toCharArray();
+
+        Arrays.sort(arr);
+        Arrays.sort(brr);
+
+        if(Arrays.equals(arr,brr))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+    }
+
+> Runtime: 3 ms, faster than 96.35% of Java online submissions for Valid Anagram.
+
+> Memory Usage: 42.2 MB, less than 94.87% of Java online submissions for Valid Anagram.
