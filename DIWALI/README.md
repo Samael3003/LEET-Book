@@ -41,3 +41,53 @@
     219. Contains Duplicate II
     2441. Largest Positive Integer That Exists With Its Negative
     2432. The Employee That Worked on the Longest Task
+
+# 22-October 
+
+**( probs.)**
+
+    12. Integer to Roman
+    237. Delete Node in a Linked List
+    2095. Delete the Middle Node of a Linked List
+    1531. String Compression II
+    1335. Minimum Difficulty of a Job Schedule
+    1832. Check if the Sentence Is Pangram
+    38. Count and Say
+    692. Top K Frequent Words
+    12. Integer to Roman
+    2289. Steps to Make Array Non-decreasing
+    2sd4. Maximum Top
+    2280. Minimum Lines to Represent a Line Chart
+    1191. K-Concatenation Maximum Sum
+    665. Non-decreasing Array
+    2195. Append K Integers With Minimal Sum
+    2333. Minimum Sum of Squared Difference
+    805. Split Array With Same Average
+    47. Permutations II
+    31. Next Permutation
+    37. Sudoku Solver
+    40. Combination Sum II
+    295. Find Median from Data Stream
+    239. Sliding Window Maximum
+    124. Binary Tree Maximum Path Sum
+    51. N-Queens
+    32. Longest Valid Parentheses
+    25. Reverse Nodes in k-Group
+    23. Merge k Sorted Lists
+    22. Generate Parentheses
+    24. Swap Nodes in Pairs
+    73. Set Matrix Zeroes
+    78. Subsets
+    78. Subsets
+    105. Construct Binary Tree from Preorder and Inorder Traversal
+    128. Longest Consecutive Sequence
+    131. Palindrome Partitioning
+    146. LRU Cache
+    200. Number of Islands
+    207. Course Schedule
+    394. Decode String
+    647. Palindromic Substrings
+    763. Partition Labels
+    236. Lowest Common Ancestor of a Binary Tree
+    160. Intersection of Two Linked Lists
+    
