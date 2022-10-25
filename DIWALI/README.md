@@ -91,6 +91,7 @@
     236. Lowest Common Ancestor of a Binary Tree
     160. Intersection of Two Linked Lists
     
+    
 # 23-October 
 
 **( 4 probs.)**
@@ -99,3 +100,29 @@
     2447. Number of Subarrays With GCD Equal to K
     2448. Minimum Cost to Make Array Equal
     2449. Minimum Number of Operations to Make Arrays Similar
+
+
+# 23-October 
+
+**(  probs.)**
+
+1710. Maximum Units on a Truck
+1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+376. Wiggle Subsequence
+135. Candy
+128. Longest Consecutive Sequence
+509. Fibonacci Number
+97. Interleaving String
+1473. Paint House III
+1696. Jump Game VI
+746. Min Cost Climbing Stairs
+199. Binary Tree Right Side View
+473. Matchsticks to Square
+102. Binary Tree Level Order Traversal
+105. Construct Binary Tree from Preorder and Inorder Traversal
+695. Max Area of Island
+576. Out of Boundary Paths
+629. K Inverse Pairs Array
+1074. Number of Submatrices That Sum to Target
+118. Pascal's Triangle
+792. Number of Matching Subsequences
